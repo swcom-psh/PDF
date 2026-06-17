@@ -14,19 +14,44 @@
 
   <style>
     :root {
-      --bg-deep: #0d0f1a;
-      --bg-card: rgba(255, 255, 255, 0.06);
-      --bg-card2: rgba(255, 255, 255, 0.03);
-      --border: rgba(255, 255, 255, 0.10);
-      --accent: #7c6fff;
-      --accent2: #a78bfa;
-      --accent-glow: rgba(124, 111, 255, 0.35);
-      --success: #34d399;
-      --danger: #f87171;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --radius: 14px;
-      --radius-sm: 8px;
+      --bg-deep: #FAF8F5; /* 따뜻한 크림/샌드 */
+      --bg-card: #FFFFFF; /* 카드 배경 */
+      --bg-card2: #F4EFE9; /* 보조 카드/드롭존 배경 */
+      --bg-header: rgba(250, 248, 245, 0.85);
+      --border: #E8DFD3; /* 부드러운 샌드톤 보더 */
+      --border-focus: #F4A261; /* 포커스 보더 */
+      --accent: #E76F51; /* 주조색: 웜 코랄 */
+      --accent2: #F4A261; /* 보조색: 테라코타 오렌지 */
+      --accent-glow: rgba(231, 111, 81, 0.15);
+      --success: #2A9D8F; /* 차분한 그린 */
+      --danger: #E76F51;
+      --text: #3C3730; /* 다크 브라운 차콜 */
+      --text-muted: #807366; /* 미디엄 브라운 그레이 */
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 2px 8px rgba(125, 114, 101, 0.05);
+      --shadow-md: 0 8px 20px rgba(125, 114, 101, 0.08);
+      --shadow-lg: 0 16px 36px rgba(125, 114, 101, 0.12);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.dark-theme {
+      --bg-deep: #181512; /* 웜 다크 블랙 */
+      --bg-card: #221D1A; /* 다크 카드 배경 */
+      --bg-card2: #2B2520; /* 다크 보조 카드 */
+      --bg-header: rgba(24, 21, 18, 0.85);
+      --border: #3D332B; /* 딥 브라운 보더 */
+      --border-focus: #E76F51;
+      --accent: #F4A261; /* 다크 테마에선 조금 더 밝은 웜 오렌지 */
+      --accent2: #E76F51;
+      --accent-glow: rgba(244, 162, 97, 0.25);
+      --success: #48CAE4;
+      --danger: #F08080;
+      --text: #F5EFEB; /* 부드러운 아이보리 */
+      --text-muted: #A89C90; /* 웜 그레이 */
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
     }
 
     *,
@@ -38,62 +63,88 @@
     }
 
     body {
-      font-family: 'Pretendard', 'Segoe UI', sans-serif;
+      font-family: 'Pretendard', 'Segoe UI', -apple-system, sans-serif;
       background: var(--bg-deep);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     /* ── 헤더 ── */
     header {
-      background: rgba(13, 15, 26, 0.9);
+      background: var(--bg-header);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       padding: 0 32px;
       display: flex;
       align-items: center;
       gap: 12px;
-      height: 64px;
+      height: 70px;
       position: sticky;
       top: 0;
       z-index: 200;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.3s, border-color 0.3s;
     }
 
     header .logo-icon {
       font-size: 28px;
-      filter: drop-shadow(0 0 8px var(--accent));
+      filter: drop-shadow(0 2px 8px var(--accent-glow));
     }
 
     header h1 {
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     header .badge {
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       background: var(--accent-glow);
       border: 1px solid var(--accent);
-      color: var(--accent2);
+      color: var(--accent);
       border-radius: 20px;
       padding: 2px 10px;
-      letter-spacing: .05em;
+      letter-spacing: .02em;
+      font-weight: 600;
     }
 
     header .spacer {
       flex: 1;
     }
 
+    /* 테마 스위치 스타일 */
+    .theme-toggle {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      background: var(--border);
+      transform: scale(1.05);
+    }
+
     /* ── 탭 ── */
     .tab-bar {
       display: flex;
       gap: 8px;
-      padding: 20px 32px 0;
+      padding: 24px 32px 0;
     }
 
     .tab-btn {
@@ -103,14 +154,14 @@
       border-radius: var(--radius) var(--radius) 0 0;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 10px 22px;
-      font-size: 0.9rem;
+      padding: 12px 24px;
+      font-size: 0.95rem;
       font-family: inherit;
-      font-weight: 500;
-      transition: all .2s;
+      font-weight: 600;
+      transition: var(--transition);
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
     }
 
     .tab-btn:hover {
@@ -120,9 +171,10 @@
 
     .tab-btn.active {
       background: var(--bg-card);
-      color: #fff;
+      color: var(--text);
       border-color: var(--border);
       position: relative;
+      box-shadow: 0 -4px 10px rgba(125, 114, 101, 0.03);
     }
 
     .tab-btn.active::after {
@@ -131,9 +183,9 @@
       bottom: -1px;
       left: 0;
       right: 0;
-      height: 2px;
+      height: 3px;
       background: var(--accent);
-      border-radius: 2px 2px 0 0;
+      border-radius: 3px 3px 0 0;
     }
 
     /* ── 메인 ── */
@@ -147,8 +199,10 @@
       border: 1px solid var(--border);
       border-top: none;
       border-radius: 0 var(--radius) var(--radius) var(--radius);
-      padding: 28px;
+      padding: 32px;
       display: none;
+      box-shadow: var(--shadow-md);
+      transition: background-color 0.3s, border-color 0.3s;
     }
 
     .panel.active {
@@ -167,11 +221,25 @@
       position: relative;
     }
 
+    /* ── 업로드 ── */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 50px 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--bg-card2);
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+
     .drop-zone:hover,
     .drop-zone.dragover {
       border-color: var(--accent);
-      background: rgba(124, 111, 255, 0.07);
+      background: rgba(231, 111, 81, 0.04);
       box-shadow: 0 0 0 4px var(--accent-glow);
+      transform: translateY(-2px);
     }
 
     .drop-zone input[type="file"] {
@@ -184,18 +252,23 @@
     }
 
     .drop-zone .icon {
-      font-size: 2.8rem;
-      margin-bottom: 10px;
+      font-size: 3rem;
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+
+    .drop-zone:hover .icon {
+      transform: scale(1.1);
     }
 
     .drop-zone p {
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       line-height: 1.8;
     }
 
     .drop-zone strong {
-      color: var(--accent2);
+      color: var(--accent);
     }
 
     /* ── 파일 업로드 후 상태바 ── */
@@ -206,7 +279,10 @@
       background: var(--bg-card2);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 12px 18px;
+      padding: 14px 20px;
+      margin-top: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
     }
 
     .file-status-bar.show {
@@ -214,7 +290,7 @@
     }
 
     .file-status-bar .file-icon {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
 
     .file-status-bar .file-detail {
@@ -222,12 +298,12 @@
     }
 
     .file-status-bar .file-detail .fname {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
     }
 
     .file-status-bar .file-detail .fmeta {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
@@ -236,26 +312,28 @@
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 7px;
-      padding: 10px 20px;
-      border: none;
+      padding: 12px 24px;
+      border: 1px solid transparent;
       border-radius: var(--radius-sm);
       font-family: inherit;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all .2s;
+      transition: var(--transition);
+      user-select: none;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #9f8fff);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #fff;
-      box-shadow: 0 4px 20px var(--accent-glow);
+      box-shadow: 0 4px 15px var(--accent-glow);
     }
 
     .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 24px var(--accent-glow);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px var(--accent-glow);
     }
 
     .btn-primary:active {
@@ -263,46 +341,51 @@
     }
 
     .btn-primary:disabled {
-      opacity: 0.4;
+      opacity: 0.45;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     .btn-outline {
-      background: transparent;
+      background: var(--bg-card);
       border: 1px solid var(--border);
       color: var(--text-muted);
+      box-shadow: var(--shadow-sm);
     }
 
     .btn-outline:hover {
-      border-color: var(--accent);
+      border-color: var(--border-focus);
       color: var(--text);
-      background: var(--bg-card);
+      background: var(--bg-card2);
+      transform: translateY(-1px);
     }
 
     .btn-danger {
-      background: rgba(248, 113, 113, 0.12);
+      background: rgba(231, 111, 81, 0.08);
       border: 1px solid var(--danger);
       color: var(--danger);
     }
 
     .btn-danger:hover {
-      background: rgba(248, 113, 113, 0.22);
-    }
-
-    .btn-success {
-      background: linear-gradient(135deg, #059669, var(--success));
-      color: #fff;
-      box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
-    }
-
-    .btn-success:hover {
+      background: rgba(231, 111, 81, 0.16);
       transform: translateY(-1px);
     }
 
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #3a86c8);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(42, 157, 143, 0.25);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(42, 157, 143, 0.4);
+    }
+
     .btn-sm {
-      padding: 6px 13px;
-      font-size: 0.8rem;
+      padding: 8px 16px;
+      font-size: 0.85rem;
     }
 
     /* ── 툴바 ── */
@@ -311,7 +394,7 @@
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
-      margin: 20px 0 16px;
+      margin: 24px 0 18px;
     }
 
     .toolbar .spacer {
@@ -319,59 +402,65 @@
     }
 
     .toolbar .count-badge {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      font-size: 0.85rem;
+      color: var(--text);
       background: var(--bg-card2);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 4px 14px;
+      padding: 6px 16px;
+      font-weight: 500;
     }
 
     /* ── 페이지 그리드 ── */
     .page-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-      gap: 14px;
-      margin-top: 4px;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 18px;
+      margin-top: 10px;
     }
 
     .page-card {
-      background: var(--bg-card2);
+      background: var(--bg-card);
       border: 2px solid var(--border);
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius);
       overflow: hidden;
       cursor: pointer;
-      transition: all .2s;
+      transition: var(--transition);
       position: relative;
       user-select: none;
+      box-shadow: var(--shadow-sm);
+
     }
 
     .page-card:hover {
       border-color: var(--accent2);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
     }
 
     .page-card.selected {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow);
+      box-shadow: 0 0 0 4px var(--accent-glow), var(--shadow-md);
     }
 
     /* 체크 뱃지 */
     .page-card .check {
       position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 22px;
-      height: 22px;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      background: var(--bg-deep);
+      background: var(--bg-card);
       border: 2px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
-      transition: all .2s;
+      font-size: 0.75rem;
+      font-weight: bold;
+      transition: var(--transition);
       z-index: 2;
+      box-shadow: var(--shadow-sm);
     }
 
     .page-card.selected .check {
@@ -383,20 +472,20 @@
     /* 휴지통 */
     .page-card .del-btn {
       position: absolute;
-      bottom: 28px;
-      right: 5px;
-      width: 24px;
-      height: 24px;
+      bottom: 34px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: rgba(248, 113, 113, 0.15);
+      background: rgba(231, 111, 81, 0.1);
       border: 1px solid var(--danger);
       color: var(--danger);
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
-      transition: opacity .15s;
+      transition: var(--transition);
       cursor: pointer;
       z-index: 3;
     }
@@ -406,26 +495,28 @@
     }
 
     .page-card .del-btn:hover {
-      background: rgba(248, 113, 113, 0.4);
+      background: var(--danger);
+      color: #fff;
+      transform: scale(1.1);
     }
 
     /* 돋보기 */
     .page-card .zoom-btn {
       position: absolute;
-      bottom: 28px;
-      left: 5px;
-      width: 24px;
-      height: 24px;
+      bottom: 34px;
+      left: 8px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: rgba(124, 111, 255, 0.15);
-      border: 1px solid var(--accent);
-      color: var(--accent2);
-      font-size: 0.75rem;
+      background: rgba(244, 162, 97, 0.1);
+      border: 1px solid var(--accent2);
+      color: var(--accent);
+      font-size: 0.8rem;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
-      transition: opacity .15s;
+      transition: var(--transition);
       cursor: pointer;
       z-index: 3;
     }
@@ -435,46 +526,97 @@
     }
 
     .page-card .zoom-btn:hover {
-      background: rgba(124, 111, 255, 0.4);
+      background: var(--accent2);
+      color: #fff;
+      transform: scale(1.1);
     }
 
     /* 드래그 핸들 */
     .page-card .drag-handle {
       position: absolute;
-      top: 6px;
-      left: 6px;
-      font-size: 0.75rem;
+      top: 8px;
+      left: 8px;
+      font-size: 0.85rem;
       color: var(--text-muted);
       opacity: 0;
-      transition: opacity .15s;
+      transition: var(--transition);
       cursor: grab;
       z-index: 3;
+      padding: 2px 4px;
+      background: var(--bg-card);
+      border-radius: 4px;
+      border: 1px solid var(--border);
     }
 
     .page-card:hover .drag-handle {
+      opacity: 0.9;
+    }
+
+    /* 모바일 순서 조절 버튼 */
+    .page-card .card-nav {
+      position: absolute;
+      bottom: 34px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 2;
+    }
+
+    .page-card:hover .card-nav {
       opacity: 1;
+    }
+
+    .page-card .nav-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .page-card .nav-btn:hover {
+      background: var(--accent2);
+      color: #fff;
+      border-color: var(--accent2);
     }
 
     .page-card canvas {
       width: 100%;
       display: block;
+      transition: opacity 0.2s;
     }
 
     .page-card .page-num {
       text-align: center;
       font-size: 0.75rem;
       color: var(--text-muted);
-      padding: 5px;
-      background: rgba(0, 0, 0, 0.3);
+      padding: 6px;
+      background: var(--bg-card2);
+      border-top: 1px solid var(--border);
+      font-weight: 600;
     }
 
     .page-card.dragging {
       opacity: 0.4;
-      transform: scale(0.97);
+      transform: scale(0.95);
+      border-color: var(--accent);
     }
 
     .page-card.drag-over {
       border-color: var(--success);
+      box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
     }
 
     /* ── 확대 모달 ── */
@@ -483,10 +625,12 @@
       position: fixed;
       inset: 0;
       z-index: 500;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(6px);
+      background: rgba(44, 39, 35, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
+      animation: fadeIn 0.2s ease;
     }
 
     .modal-overlay.show {
@@ -496,19 +640,24 @@
     .modal-box {
       position: relative;
       max-width: 90vw;
-      max-height: 90vh;
+      max-height: 92vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
+      background: var(--bg-card);
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
     }
 
     .modal-box canvas {
-      max-width: 88vw;
-      max-height: 80vh;
-      border-radius: var(--radius);
-      border: 2px solid var(--border);
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+      max-width: 85vw;
+      max-height: 65vh;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
       object-fit: contain;
     }
 
@@ -516,14 +665,17 @@
       display: flex;
       gap: 10px;
       align-items: center;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .modal-close {
       position: absolute;
       top: -14px;
       right: -14px;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       background: var(--danger);
       border: none;
@@ -533,45 +685,51 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px rgba(248, 113, 113, 0.4);
-      transition: transform .15s;
+      box-shadow: 0 4px 14px rgba(231, 111, 81, 0.4);
+      transition: var(--transition);
+      z-index: 10;
     }
 
     .modal-close:hover {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(90deg);
     }
 
     .modal-page-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      background: var(--bg-card);
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--bg-card2);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 4px 16px;
+      padding: 6px 18px;
+      font-weight: 600;
     }
 
     /* ── 병합 섹션 ── */
     .merge-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       margin: 20px 0;
     }
 
     .merge-item {
-      background: var(--bg-card2);
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 14px 18px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       cursor: grab;
-      transition: all .2s;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
     }
 
     .merge-item:hover {
-      border-color: var(--accent2);
+      border-color: var(--border-focus);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
     .merge-item.dragging {
@@ -580,36 +738,65 @@
 
     .merge-item.drag-over {
       border-color: var(--success);
-      background: rgba(52, 211, 153, 0.07);
+      background: rgba(42, 157, 143, 0.05);
     }
 
     .merge-item .file-icon {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
     }
 
     .merge-item .file-info {
       flex: 1;
+      min-width: 200px;
     }
 
     .merge-item .file-name {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
       color: var(--text);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 300px;
+      max-width: 320px;
     }
 
     .merge-item .file-meta {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 3px;
+    }
+
+    /* 병합 범위 입력 필드 */
+    .merge-item .page-range-input {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      color: var(--text);
+      outline: none;
+      font-family: inherit;
+      width: 140px;
+      transition: var(--transition);
+    }
+
+    .merge-item .page-range-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
     }
 
     .merge-item .drag-indicator {
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 1.2rem;
+      cursor: grab;
+      user-select: none;
+      padding: 0 4px;
+    }
+
+    .merge-item .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .merge-item .remove-btn {
@@ -617,20 +804,24 @@
       border: none;
       color: var(--danger);
       cursor: pointer;
-      font-size: 1.1rem;
-      padding: 4px;
-      border-radius: 4px;
-      transition: background .15s;
+      font-size: 1.2rem;
+      padding: 6px;
+      border-radius: 50%;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .merge-item .remove-btn:hover {
-      background: rgba(248, 113, 113, 0.15);
+      background: rgba(231, 111, 81, 0.1);
+      transform: scale(1.05);
     }
 
     /* ── 진행 바 ── */
     .progress-wrap {
       display: none;
-      margin: 16px 0;
+      margin: 20px 0;
     }
 
     .progress-wrap.show {
@@ -640,7 +831,7 @@
     .progress-bar-bg {
       background: var(--bg-card2);
       border-radius: 20px;
-      height: 6px;
+      height: 8px;
       overflow: hidden;
       border: 1px solid var(--border);
     }
@@ -649,27 +840,30 @@
       height: 100%;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       border-radius: 20px;
-      transition: width .3s;
+      transition: width 0.2s;
       width: 0%;
     }
 
     .progress-label {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-top: 8px;
+      margin-top: 10px;
       text-align: center;
+      font-weight: 500;
     }
 
     /* ── 결과 카드 ── */
     .result-card {
       display: none;
-      background: rgba(52, 211, 153, 0.08);
-      border: 1px solid var(--success);
+      background: rgba(42, 157, 143, 0.06);
+      border: 1.5px solid var(--success);
       border-radius: var(--radius);
-      padding: 20px 24px;
-      margin-top: 20px;
+      padding: 24px;
+      margin-top: 24px;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
+      box-shadow: var(--shadow-md);
+      animation: fadeIn 0.3s ease;
     }
 
     .result-card.show {
@@ -677,7 +871,7 @@
     }
 
     .result-card .result-icon {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
 
     .result-card .result-info {
@@ -685,67 +879,123 @@
     }
 
     .result-card .result-info h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 1.05rem;
+      font-weight: 700;
       color: var(--success);
     }
 
     .result-card .result-info p {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .result-card .result-filename {
-      background: var(--bg-card2);
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      font-size: 0.83rem;
+      padding: 8px 14px;
+      font-size: 0.9rem;
       color: var(--text);
       outline: none;
-      margin-top: 8px;
+      margin-top: 10px;
       width: 100%;
       font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .result-card .result-filename:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
     /* ── 도움말 ── */
     .help-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
     }
 
     .help-card {
-      background: var(--bg-card2);
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .help-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
     .help-card h3 {
-      font-size: 1rem;
-      margin-bottom: 10px;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 8px;
+      color: var(--accent);
     }
 
     .help-card ol,
     .help-card ul {
-      padding-left: 18px;
-      line-height: 2;
+      padding-left: 20px;
+      line-height: 2.1;
     }
 
     .help-card li {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
+    }
+
+    /* 전체 화면 드랙 앤 드롭 오버레이 */
+    .drag-drop-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(250, 248, 245, 0.92);
+      border: 4px dashed var(--accent);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: var(--accent);
+      animation: fadeIn 0.15s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    body.dark-theme .drag-drop-overlay {
+      background: rgba(24, 21, 18, 0.94);
+    }
+
+    .drag-drop-overlay.show {
+      display: flex;
+    }
+
+    .drag-drop-overlay .overlay-icon {
+      font-size: 4.5rem;
+      margin-bottom: 16px;
+      animation: bounce 1.5s infinite;
+    }
+
+    .drag-drop-overlay .overlay-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
     }
 
     /* ── 스크롤바 ── */
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
+      height: 8px;
     }
 
     ::-webkit-scrollbar-track {
@@ -757,10 +1007,15 @@
       border-radius: 20px;
     }
 
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
     /* ── 반응형 ── */
     @media (max-width: 640px) {
       header {
         padding: 0 16px;
+        height: 64px;
       }
 
       .tab-bar,
@@ -770,11 +1025,63 @@
       }
 
       .panel {
-        padding: 18px;
+        padding: 20px 16px;
       }
 
       .page-grid {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+      }
+
+      .page-card {
+        border-radius: var(--radius-sm);
+      }
+
+      .page-card .drag-handle,
+      .page-card:hover .drag-handle {
+        opacity: 0;
+        pointer-events: none; /* 모바일에선 드래그 핸들 숨김 */
+      }
+
+      .page-card .del-btn,
+      .page-card .zoom-btn,
+      .page-card .card-nav {
+        opacity: 1; /* 모바일에선 항상 보이게 */
+      }
+
+      .page-card .del-btn {
+        bottom: 30px;
+        right: 4px;
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+      }
+
+      .page-card .zoom-btn {
+        bottom: 30px;
+        left: 4px;
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+      }
+
+      .page-card .card-nav {
+        bottom: 30px;
+        gap: 6px;
+      }
+
+      .page-card .nav-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.65rem;
+      }
+
+      .merge-item {
+        padding: 12px 14px;
+      }
+      .merge-item .page-range-input {
+        width: 100%;
+        margin-top: 8px;
       }
     }
 
@@ -782,7 +1089,7 @@
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(8px);
       }
 
       to {
@@ -796,13 +1103,13 @@
     }
 
     .page-card {
-      animation: fadeIn .2s ease both;
+      animation: fadeIn .25s ease both;
     }
 
     .spinner {
       display: inline-block;
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-top-color: #fff;
       border-radius: 50%;
@@ -824,7 +1131,15 @@
     <span class="logo-icon">📄</span>
     <h1>PDF 편집 도구</h1>
     <span class="badge">브라우저 전용</span>
+    <div class="spacer"></div>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="테마 전환">☀</button>
   </header>
+
+  <!-- 전체 화면 드래그 앤 드롭 오버레이 -->
+  <div class="drag-drop-overlay" id="dragDropOverlay">
+    <div class="overlay-icon">📂</div>
+    <div class="overlay-text">PDF 파일을 여기에 놓으세요.</div>
+  </div>
 
   <!-- 탭 -->
   <div class="tab-bar">
@@ -910,7 +1225,9 @@
 
       <div id="mergeInfo" style="margin-top:16px; display:none;">
         <div class="toolbar">
-          <span style="color:var(--text-muted); font-size:0.85rem;">📝 순서를 드래그해서 조정하세요</span>
+          <span style="color:var(--text-muted); font-size:0.85rem;">📝 순서 조절 및 범위 지정</span>
+          <button class="btn btn-outline btn-sm" onclick="sortMergeFiles('name')">🔤 이름순</button>
+          <button class="btn btn-outline btn-sm" onclick="sortMergeFiles('size')">⚖️ 크기순</button>
           <div class="spacer"></div>
           <span class="count-badge" id="mergeCount">0개 파일</span>
           <button class="btn btn-outline btn-sm" onclick="resetMerge()">↩ 초기화</button>
@@ -991,7 +1308,9 @@
       <canvas id="zoomCanvas"></canvas>
       <div class="modal-controls">
         <button class="btn btn-outline btn-sm" onclick="zoomNav(-1)">◀ 이전</button>
+        <button class="btn btn-outline btn-sm" id="zoomSelectBtn" onclick="zoomToggleSelect()">☐ 선택</button>
         <span class="modal-page-label" id="zoomPageLabel">1페이지</span>
+        <button class="btn btn-danger btn-sm" id="zoomDeleteBtn" onclick="zoomDeletePage()">🗑 삭제</button>
         <button class="btn btn-outline btn-sm" onclick="zoomNav(1)">다음 ▶</button>
       </div>
     </div>
@@ -1004,10 +1323,11 @@
 
     // ── 전역 상태 ──
     let cutPdfDoc = null;   // PDF.js 문서
-    let cutPdfUint8 = null;   // 원본 Uint8Array (버그 수정: ArrayBuffer 대신 Uint8Array 저장)
+    let cutPdfUint8 = null;   // 원본 Uint8Array
     let currentFile = null;   // 현재 파일 정보
     let selected = new Set();
     let cutResultBytes = null;
+    let lastClickedPage = null; // Shift+Click 범위 선택용
 
     let mergeFileList = [];
     let mergeResultBytes = null;
@@ -1015,6 +1335,65 @@
     // 줌 모달 상태
     let zoomPageList = [];   // 현재 그리드의 pageNum 배열 (표시 순서)
     let zoomCurIdx = 0;
+
+    // ── 테마 전환 로직 ──
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        document.getElementById('themeToggle').textContent = '🌙';
+      } else {
+        document.body.classList.remove('dark-theme');
+        document.getElementById('themeToggle').textContent = '☀';
+      }
+    }
+    
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark-theme');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀';
+    }
+    
+    window.addEventListener('DOMContentLoaded', initTheme);
+
+    // ── 전체 화면 드래그 앤 드롭 오버레이 ──
+    const overlay = document.getElementById('dragDropOverlay');
+    let dragCounter = 0;
+
+    window.addEventListener('dragenter', (e) => {
+      e.preventDefault();
+      dragCounter++;
+      if (dragCounter === 1) {
+        overlay.classList.add('show');
+      }
+    });
+
+    window.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+
+    window.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter === 0) {
+        overlay.classList.remove('show');
+      }
+    });
+
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dragCounter = 0;
+      overlay.classList.remove('show');
+      const files = e.dataTransfer.files;
+      if (!files.length) return;
+      
+      const activeTab = document.querySelector('.tab-btn.active').id;
+      if (activeTab === 'tab-cut') {
+        loadPDFForCut(files[0]);
+      } else if (activeTab === 'tab-merge') {
+        addMergeFiles(files);
+      }
+    });
 
     // ── 탭 전환 ──
     function switchTab(name) {
@@ -1047,6 +1426,7 @@
       document.getElementById('cutResult').classList.remove('show');
       cutResultBytes = null;
       selected.clear();
+      lastClickedPage = null;
 
       // 업로드 영역 숨기기 → 상태바 표시
       document.getElementById('cutUploadArea').style.display = 'none';
@@ -1078,11 +1458,44 @@
         await renderPageCard(i);
       }
 
+      updatePageNumbers();
       prog.classList.remove('show');
       bar.style.width = '0%';
       document.getElementById('cutToolbar').style.display = 'flex';
       document.getElementById('cutActionBar').style.display = 'flex';
       updateSelCount();
+    }
+
+    // 페이지 카드 번호 갱신
+    function updatePageNumbers() {
+      const cards = [...document.querySelectorAll('#pageGrid .page-card')];
+      cards.forEach((card, idx) => {
+        const origNum = card.dataset.page;
+        const label = card.querySelector('.page-num');
+        if (label) {
+          label.textContent = `${idx + 1}번째 (원본 ${origNum}p)`;
+        }
+      });
+    }
+
+    // 모바일/클릭용 카드 순서 이동
+    function moveCard(e, btn, dir) {
+      e.stopPropagation();
+      const card = btn.closest('.page-card');
+      const grid = document.getElementById('pageGrid');
+      const cards = [...grid.querySelectorAll('.page-card')];
+      const idx = cards.indexOf(card);
+      if (idx === -1) return;
+      
+      const newIdx = idx + dir;
+      if (newIdx < 0 || newIdx >= cards.length) return;
+      
+      if (dir === -1) {
+        grid.insertBefore(card, cards[newIdx]);
+      } else {
+        grid.insertBefore(card, cards[newIdx].nextSibling);
+      }
+      updatePageNumbers();
     }
 
     async function renderPageCard(pageNum) {
@@ -1098,12 +1511,16 @@
       card.className = 'page-card';
       card.dataset.page = pageNum;
       card.innerHTML = `
-    <span class="drag-handle" title="드래그해서 순서 변경">⠿⠿</span>
-    <span class="check">✓</span>
-    <span class="zoom-btn" title="확대 보기" onclick="openZoom(event, ${pageNum})">🔍</span>
-    <span class="del-btn"  title="페이지 삭제" onclick="deletePage(event, this)">🗑</span>
-    <div class="page-num">${pageNum}페이지</div>
-  `;
+        <span class="drag-handle" title="드래그해서 순서 변경">⠿⠿</span>
+        <span class="check">✓</span>
+        <span class="zoom-btn" title="확대 보기" onclick="openZoom(event, ${pageNum})">🔍</span>
+        <div class="card-nav">
+          <span class="nav-btn" title="왼쪽으로 이동" onclick="moveCard(event, this, -1)">◀</span>
+          <span class="nav-btn" title="오른쪽으로 이동" onclick="moveCard(event, this, 1)">▶</span>
+        </div>
+        <span class="del-btn" title="페이지 삭제" onclick="deletePage(event, this)">🗑</span>
+        <div class="page-num">${pageNum}페이지</div>
+      `;
       card.insertBefore(canvas, card.querySelector('.page-num'));
 
       // 클릭 → 선택 / 해제
@@ -1111,8 +1528,9 @@
         const tag = e.target;
         if (tag.classList.contains('drag-handle') ||
           tag.classList.contains('zoom-btn') ||
+          tag.classList.contains('nav-btn') ||
           tag.classList.contains('del-btn')) return;
-        toggleSelect(card, +card.dataset.page);
+        toggleSelect(card, +card.dataset.page, e.shiftKey);
       };
 
       // 드래그 재배열
@@ -1125,9 +1543,42 @@
       document.getElementById('pageGrid').appendChild(card);
     }
 
-    function toggleSelect(card, pageNum) {
-      if (selected.has(pageNum)) { selected.delete(pageNum); card.classList.remove('selected'); }
-      else { selected.add(pageNum); card.classList.add('selected'); }
+    function toggleSelect(card, pageNum, isShift) {
+      const grid = document.getElementById('pageGrid');
+      const cards = [...grid.querySelectorAll('.page-card')];
+      const pageNums = cards.map(c => +c.dataset.page);
+
+      if (isShift && lastClickedPage !== null) {
+        const startIdx = pageNums.indexOf(lastClickedPage);
+        const endIdx = pageNums.indexOf(pageNum);
+        if (startIdx !== -1 && endIdx !== -1) {
+          const minIdx = Math.min(startIdx, endIdx);
+          const maxIdx = Math.max(startIdx, endIdx);
+          const shouldSelect = selected.has(lastClickedPage);
+
+          for (let i = minIdx; i <= maxIdx; i++) {
+            const targetNum = pageNums[i];
+            const targetCard = cards[i];
+            if (shouldSelect) {
+              selected.add(targetNum);
+              targetCard.classList.add('selected');
+            } else {
+              selected.delete(targetNum);
+              targetCard.classList.remove('selected');
+            }
+          }
+        }
+      } else {
+        if (selected.has(pageNum)) {
+          selected.delete(pageNum);
+          card.classList.remove('selected');
+        } else {
+          selected.add(pageNum);
+          card.classList.add('selected');
+        }
+      }
+      
+      lastClickedPage = pageNum;
       updateSelCount();
     }
 
@@ -1137,9 +1588,29 @@
       document.getElementById('extractBtn').disabled = n === 0;
     }
 
-    function selectAllPages() { document.querySelectorAll('.page-card').forEach(c => { const p = +c.dataset.page; selected.add(p); c.classList.add('selected'); }); updateSelCount(); }
-    function deselectAllPages() { selected.clear(); document.querySelectorAll('.page-card').forEach(c => c.classList.remove('selected')); updateSelCount(); }
-    function invertSelection() { document.querySelectorAll('.page-card').forEach(c => { const p = +c.dataset.page; selected.has(p) ? selected.delete(p) : selected.add(p); c.classList.toggle('selected'); }); updateSelCount(); }
+    function selectAllPages() {
+      document.querySelectorAll('.page-card').forEach(c => {
+        const p = +c.dataset.page;
+        selected.add(p);
+        c.classList.add('selected');
+      });
+      updateSelCount();
+    }
+
+    function deselectAllPages() {
+      selected.clear();
+      document.querySelectorAll('.page-card').forEach(c => c.classList.remove('selected'));
+      updateSelCount();
+    }
+
+    function invertSelection() {
+      document.querySelectorAll('.page-card').forEach(c => {
+        const p = +c.dataset.page;
+        selected.has(p) ? selected.delete(p) : selected.add(p);
+        c.classList.toggle('selected');
+      });
+      updateSelCount();
+    }
 
     // ── 페이지 삭제 ──
     function deletePage(e, btn) {
@@ -1148,8 +1619,15 @@
       const pageNum = +card.dataset.page;
       if (!confirm(`${pageNum}페이지를 목록에서 삭제하시겠습니까?\n(원본 파일은 변경되지 않습니다)`)) return;
       selected.delete(pageNum);
+      lastClickedPage = null;
       card.remove();
       updateSelCount();
+      updatePageNumbers();
+      
+      // 모달 열려있으면 닫기
+      if (document.getElementById('zoomModal').classList.contains('show')) {
+        closeZoomBtn();
+      }
     }
 
     // ── 카드 드래그 재배열 ──
@@ -1166,6 +1644,7 @@
       if (srcIdx < tgtIdx) grid.insertBefore(dragSrcCard, this.nextSibling);
       else grid.insertBefore(dragSrcCard, this);
       this.classList.remove('drag-over');
+      updatePageNumbers();
     }
     function onCardDragEnd() {
       this.classList.remove('dragging');
@@ -1216,6 +1695,7 @@
     function resetCut() {
       cutPdfDoc = null; cutPdfUint8 = null; cutResultBytes = null; currentFile = null;
       selected.clear();
+      lastClickedPage = null;
       document.getElementById('pageGrid').innerHTML = '';
       document.getElementById('cutToolbar').style.display = 'none';
       document.getElementById('cutActionBar').style.display = 'none';
@@ -1240,13 +1720,79 @@
     async function renderZoomPage(pageNum) {
       if (!cutPdfDoc) return;
       const page = await cutPdfDoc.getPage(pageNum);
-      const vp = page.getViewport({ scale: 2.2 });
+      const scale = window.innerWidth < 640 ? 1.2 : 2.2;
+      const vp = page.getViewport({ scale: scale });
       const canvas = document.getElementById('zoomCanvas');
       const ctx = canvas.getContext('2d');
       canvas.width = vp.width;
       canvas.height = vp.height;
       await page.render({ canvasContext: ctx, viewport: vp }).promise;
-      document.getElementById('zoomPageLabel').textContent = `${pageNum}페이지`;
+      updateZoomControls();
+    }
+
+    function updateZoomControls() {
+      const pageNum = zoomPageList[zoomCurIdx];
+      const selectBtn = document.getElementById('zoomSelectBtn');
+      const currentIdx = zoomPageList.indexOf(pageNum);
+      
+      if (currentIdx !== -1) {
+        document.getElementById('zoomPageLabel').textContent = `${currentIdx + 1}번째 (원본 ${pageNum}p)`;
+      } else {
+        document.getElementById('zoomPageLabel').textContent = `${pageNum}페이지`;
+      }
+
+      if (selected.has(pageNum)) {
+        selectBtn.textContent = '☑ 선택됨';
+        selectBtn.classList.remove('btn-outline');
+        selectBtn.classList.add('btn-primary');
+      } else {
+        selectBtn.textContent = '☐ 선택';
+        selectBtn.classList.remove('btn-primary');
+        selectBtn.classList.add('btn-outline');
+      }
+    }
+
+    function zoomToggleSelect() {
+      const pageNum = zoomPageList[zoomCurIdx];
+      const card = document.querySelector(`.page-card[data-page="${pageNum}"]`);
+      if (!card) return;
+      
+      if (selected.has(pageNum)) {
+        selected.delete(pageNum);
+        card.classList.remove('selected');
+      } else {
+        selected.add(pageNum);
+        card.classList.add('selected');
+      }
+      updateSelCount();
+      updateZoomControls();
+    }
+
+    async function zoomDeletePage() {
+      const pageNum = zoomPageList[zoomCurIdx];
+      if (!confirm(`${pageNum}페이지를 목록에서 삭제하시겠습니까?\n(원본 파일은 변경되지 않습니다)`)) return;
+      
+      const card = document.querySelector(`.page-card[data-page="${pageNum}"]`);
+      if (card) {
+        selected.delete(pageNum);
+        lastClickedPage = null;
+        card.remove();
+        updateSelCount();
+        updatePageNumbers();
+      }
+      
+      zoomPageList = [...document.querySelectorAll('.page-card')].map(c => +c.dataset.page);
+      
+      if (zoomPageList.length === 0) {
+        closeZoomBtn();
+        return;
+      }
+      
+      if (zoomCurIdx >= zoomPageList.length) {
+        zoomCurIdx = zoomPageList.length - 1;
+      }
+      
+      await renderZoomPage(zoomPageList[zoomCurIdx]);
     }
 
     async function zoomNav(dir) {
@@ -1280,11 +1826,10 @@
         const u8 = new Uint8Array(buf);
         let pageCount = '?';
         try {
-          // ★ 복사본을 PDF.js에 전달해 원본 u8(bytes)을 pdf-lib용으로 보존
           const doc = await pdfjsLib.getDocument({ data: u8.slice() }).promise;
           pageCount = doc.numPages;
         } catch (e) { }
-        mergeFileList.push({ name: file.name, size: file.size, bytes: u8, pageCount });
+        mergeFileList.push({ name: file.name, size: file.size, bytes: u8, pageCount, range: '' });
       }
       renderMergeList();
       document.getElementById('mergeInfo').style.display = 'block';
@@ -1302,15 +1847,35 @@
         item.className = 'merge-item';
         item.draggable = true;
         item.dataset.idx = idx;
+        
+        let borderStyle = '';
+        let inputTitle = '합칠 페이지 범위를 지정하세요';
+        if (f.range && f.range.trim() !== '') {
+          const maxPage = f.pageCount;
+          const parsed = parsePageRange(f.range.trim(), maxPage);
+          if (parsed.length === 0) {
+            borderStyle = 'border-color: var(--danger); box-shadow: 0 0 0 2px var(--accent-glow);';
+            inputTitle = '올바른 범위 형식이 아닙니다 (예: 1-3, 5)';
+          } else {
+            borderStyle = 'border-color: var(--success); box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);';
+            inputTitle = `총 ${parsed.length}개 페이지 선택됨`;
+          }
+        }
+
         item.innerHTML = `
-      <span class="file-icon">📄</span>
-      <div class="file-info">
-        <div class="file-name">${f.name}</div>
-        <div class="file-meta">${fmt(f.size)} · ${f.pageCount}페이지</div>
-      </div>
-      <span class="drag-indicator">☰</span>
-      <button class="remove-btn" title="제거" onclick="removeMergeFile(${idx})">🗑</button>
-    `;
+          <span class="file-icon">📄</span>
+          <div class="file-info">
+            <div class="file-name" title="${f.name}">${f.name}</div>
+            <div class="file-meta">${fmt(f.size)} · ${f.pageCount}페이지</div>
+          </div>
+          <input type="text" class="page-range-input" style="${borderStyle}" placeholder="전체 (예: 1-3, 5)" title="${inputTitle}" onchange="updatePageRange(${idx}, this.value)" value="${f.range || ''}">
+          <span class="drag-indicator" title="드래그해서 순서 변경">☰</span>
+          <div class="item-controls">
+            <button class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem;" title="위로" onclick="moveMergeItem(event, ${idx}, -1)">▲</button>
+            <button class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem;" title="아래로" onclick="moveMergeItem(event, ${idx}, 1)">▼</button>
+          </div>
+          <button class="remove-btn" title="제거" onclick="removeMergeFile(${idx})">🗑</button>
+        `;
         item.addEventListener('dragstart', onMergeDragStart);
         item.addEventListener('dragover', onMergeDragOver);
         item.addEventListener('drop', onMergeDrop);
@@ -1338,6 +1903,81 @@
       if (mergeFileList.length === 0) document.getElementById('mergeInfo').style.display = 'none';
     }
 
+    function updatePageRange(idx, value) {
+      if (!mergeFileList[idx]) return;
+      mergeFileList[idx].range = value.trim();
+      
+      const input = document.querySelectorAll('.page-range-input')[idx];
+      if (!input) return;
+      
+      if (value.trim() !== '') {
+        const maxPage = mergeFileList[idx].pageCount;
+        const parsed = parsePageRange(value.trim(), maxPage);
+        if (parsed.length === 0) {
+          input.style.borderColor = 'var(--danger)';
+          input.style.boxShadow = '0 0 0 2px var(--accent-glow)';
+          input.title = '올바른 범위 형식이 아닙니다 (예: 1-3, 5)';
+        } else {
+          input.style.borderColor = 'var(--success)';
+          input.style.boxShadow = '0 0 0 2px rgba(42, 157, 143, 0.2)';
+          input.title = `총 ${parsed.length}개 페이지 선택됨`;
+        }
+      } else {
+        input.style.borderColor = '';
+        input.style.boxShadow = '';
+        input.title = '합칠 페이지 범위를 지정하세요';
+      }
+    }
+
+    function moveMergeItem(e, idx, dir) {
+      e.stopPropagation();
+      const newIdx = idx + dir;
+      if (newIdx < 0 || newIdx >= mergeFileList.length) return;
+      const moved = mergeFileList.splice(idx, 1)[0];
+      mergeFileList.splice(newIdx, 0, moved);
+      renderMergeList();
+    }
+
+    function sortMergeFiles(type) {
+      if (type === 'name') {
+        mergeFileList.sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true, sensitivity: 'base'}));
+      } else if (type === 'size') {
+        mergeFileList.sort((a, b) => a.size - b.size);
+      }
+      renderMergeList();
+    }
+
+    function parsePageRange(rangeStr, maxPage) {
+      if (!rangeStr) {
+        return Array.from({ length: maxPage }, (_, i) => i);
+      }
+      const indices = [];
+      const parts = rangeStr.split(',');
+      for (const part of parts) {
+        const trimmed = part.trim();
+        if (!trimmed) continue;
+        if (trimmed.includes('-')) {
+          const [startStr, endStr] = trimmed.split('-');
+          const start = parseInt(startStr, 10);
+          const end = parseInt(endStr, 10);
+          if (!isNaN(start) && !isNaN(end)) {
+            const min = Math.max(1, Math.min(start, end));
+            const max = Math.min(maxPage, Math.max(start, end));
+            for (let i = min; i <= max; i++) {
+              indices.push(i - 1);
+            }
+          }
+        } else {
+          const page = parseInt(trimmed, 10);
+          if (!isNaN(page) && page >= 1 && page <= maxPage) {
+            indices.push(page - 1);
+          }
+        }
+      }
+      // 중복 제거 및 정렬
+      return [...new Set(indices)].sort((a, b) => a - b);
+    }
+
     async function mergePDFs() {
       if (mergeFileList.length < 1) return;
       const btn = document.getElementById('mergeBtn');
@@ -1355,9 +1995,13 @@
         for (let i = 0; i < mergeFileList.length; i++) {
           bar.style.width = Math.round((i / mergeFileList.length) * 100) + '%';
           lbl.textContent = `병합 중... (${i + 1}/${mergeFileList.length}) ${mergeFileList[i].name}`;
-          // ★ Uint8Array로 저장된 bytes 사용
-          const srcDoc = await PDFDocument.load(mergeFileList[i].bytes);
-          const indices = srcDoc.getPageIndices();
+          const fileObj = mergeFileList[i];
+          const srcDoc = await PDFDocument.load(fileObj.bytes);
+          const maxPage = srcDoc.getPageCount();
+          
+          const indices = parsePageRange(fileObj.range, maxPage);
+          if (indices.length === 0) continue; // 가져올 페이지가 없으면 무시
+          
           const pages = await newDoc.copyPages(srcDoc, indices);
           pages.forEach(p => newDoc.addPage(p));
           totalPages += pages.length;
